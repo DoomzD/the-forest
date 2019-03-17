@@ -1,6 +1,6 @@
 package RPG.Enums
 
-enum class Animals {
+enum class EAnimals {
     SQUIRELL,
     FLYING_SQUIRELL,
     WOODPECKER,

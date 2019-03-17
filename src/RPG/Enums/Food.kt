@@ -1,6 +1,6 @@
 package RPG.Enums
 
-enum class Food {
+enum class EFood {
     NUTS,
     CONES,
     WORMS,

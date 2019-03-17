@@ -1,9 +1,9 @@
 package RPG.BaseCharacteristics
 
-import RPG.ICharacteristics
+import RPG.IAnimalCharacteristics
 import RPG.ISkills
 
-abstract class BaseSquirell : ICharacteristics, ISkills {
+abstract class BaseSquirell : IAnimalCharacteristics, ISkills {
     override var health: Int = 1
     override val additionalHealthOnLevelUp: Int = 1
 
