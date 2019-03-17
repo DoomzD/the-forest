@@ -1,6 +1,6 @@
 package RPG
 
-interface ICharacteristics {
+interface IAnimalCharacteristics {
     var health: Int
     val additionalHealthOnLevelUp: Int
 

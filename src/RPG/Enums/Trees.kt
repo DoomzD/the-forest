@@ -1,6 +1,6 @@
 package RPG.Enums
 
-enum class Trees {
+enum class ETrees {
     FIR,
     PINE,
     OAK,
