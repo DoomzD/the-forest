@@ -1,9 +1,12 @@
 package RPG.BaseCharacteristics
 
+import RPG.BaseSkills
 import RPG.IAnimalCharacteristics
 import RPG.ISkills
 
 abstract class BaseBadger : IAnimalCharacteristics, ISkills {
+    override val skills = BaseSkills()
+
     override var health: Int = 1
     override val additionalHealthOnLevelUp: Int = 1
 
