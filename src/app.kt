@@ -12,8 +12,10 @@ fun main() {
     )
 
     var currentIteration = 1
-    while (!game.animals.isEmpty())
+    while (game.notOver()) {
         game.makeIteration(currentIteration++)
+        Thread.sleep(3000)
+    }
 
     println("The forest is dead...")
 }

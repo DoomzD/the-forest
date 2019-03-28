@@ -6,17 +6,14 @@ import Forest.Enums.ETreePart
 import kotlin.random.Random
 
 class FieldCell(private val tree: ETree) {
-    private val food: MutableMap<Pair<EFood, ETreePart>, Int> = mutableMapOf()
+    private val food: MutableMap<EFood, Int> = mutableMapOf()
 
     init {
-        val possibleFood: List<Pair<EFood, ETreePart>> = when (tree) {
-            ETree.FIR, ETree.PINE, ETree.WALNUT -> listOf(
-                Pair(EFood.NUTS, ETreePart.CROWN),
-                Pair(EFood.CONES, ETreePart.CROWN)
-            )
-            ETree.MAPLE -> listOf(Pair(EFood.MAPLE_LEAVES, ETreePart.CROWN))
+        val possibleFood: List<EFood> = when (tree) {
+            ETree.FIR, ETree.PINE, ETree.WALNUT -> listOf(EFood.NUTS, EFood.CONES)
+            ETree.MAPLE -> listOf(EFood.MAPLE_LEAVES)
             else -> listOf()
-        } + listOf(Pair(EFood.WORMS, ETreePart.TRUNK), Pair(EFood.ROOT_VEGETABLES, ETreePart.ROOTS))
+        } + listOf(EFood.WORMS, EFood.ROOT_VEGETABLES)
 
         possibleFood.map { food.put(it, 0) }
     }
@@ -27,5 +24,9 @@ class FieldCell(private val tree: ETree) {
 
     fun hasFood() : Boolean = food.any { it.value > 0 }
 
-    fun getFood() : MutableMap<Pair<EFood, ETreePart>, Int> = food
+    fun getFood() : MutableMap<EFood, Int> = food
+
+    fun setFood(newFoodUnits: List<Pair<EFood, Int>>) {
+        food.putAll(newFoodUnits.toMap())
+    }
 }
