@@ -1,9 +1,15 @@
 package Forest.Animals
 
-import Forest.AnimalInterfaces.FlyingCreature
+import Forest.AnimalInterfaces.IFlyingCreature
+import Forest.Enums.EFood
+import Forest.Enums.ETreePart
+
 import RPG.BaseCharacteristics.BaseFlyingSquirell
 
-class FlyingSquirell : BaseFlyingSquirell(), FlyingCreature {
-    override val row = 0
-    override val col = 0
+class FlyingSquirell(
+    override var row: Int,
+    override var col: Int,
+    override var animalCount: Int
+) : BaseFlyingSquirell(), IFlyingCreature {
+    override val food: Set<Pair<EFood, ETreePart>> = setOf(TODO("Add food"))
 }

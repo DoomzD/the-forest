@@ -1,9 +1,15 @@
 package Forest.Animals
 
-import Forest.AnimalInterfaces.Creature
+import Forest.AnimalInterfaces.ICreature
+import Forest.Enums.EFood
+import Forest.Enums.ETreePart
+
 import RPG.BaseCharacteristics.BaseBadger
 
-class Badger : BaseBadger(), Creature {
-    override val row = 0
-    override val col = 0
+class Badger(
+    override var row: Int,
+    override var col: Int,
+    override var animalCount: Int
+) : BaseBadger(), ICreature {
+    override val food: Set<Pair<EFood, ETreePart>> = setOf(TODO("Add food"))
 }
