@@ -3,7 +3,7 @@ package Forest.AnimalInterfaces
 import Forest.FieldCell
 import kotlin.random.Random
 
-interface FlyingCreature : Creature {
+interface IFlyingCreature : ICreature {
     override fun makeMove(
         field: List<List<FieldCell>>,
         pathfinding: Int,
@@ -22,8 +22,13 @@ interface FlyingCreature : Creature {
             }
         }
 
-        if (!possibleEndpoints.isEmpty() && Random.nextInt(0, 100) < pathfinding) {
+        val endpoint: Pair<Int, Int> =
+            if (possibleEndpoints.isEmpty() ||
+                !possibleEndpointsWithFood.isEmpty() && Random.nextInt(0, 100) < pathfinding)
+                possibleEndpointsWithFood.random()
+            else possibleEndpoints.random()
 
-        }
+        row = endpoint.first
+        col = endpoint.second
     }
 }

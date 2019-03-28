@@ -1,11 +1,17 @@
 package Forest.AnimalInterfaces
 
+import Forest.Enums.EFood
+import Forest.Enums.ETreePart
 import Forest.FieldCell
 import kotlin.random.Random
 
-interface Creature {
-    val row: Int
-    val col: Int
+interface ICreature {
+    var row: Int
+    var col: Int
+
+    var animalCount: Int
+
+    val food: Set<Pair<EFood, ETreePart>>
 
     fun makeMove(
         field: List<List<FieldCell>>,
@@ -25,8 +31,22 @@ interface Creature {
             }
         }
 
-        if (!possibleEndpoints.isEmpty() && Random.nextInt(0, 100) < pathfinding) {
+        val endpoint: Pair<Int, Int> =
+            if (possibleEndpoints.isEmpty() ||
+                !possibleEndpointsWithFood.isEmpty() && Random.nextInt(0, 100) < pathfinding)
+                possibleEndpointsWithFood.random()
+            else possibleEndpoints.random()
 
-        }
+        row = endpoint.first
+        col = endpoint.second
     }
+
+    fun process(fieldCell: FieldCell) {
+        // TODO: Add logic
+    }
+
+    private fun checkForFood(fieldCell: FieldCell): List<Pair<EFood, Int>> =
+        fieldCell.getFood().map {
+            if (it.key in food) Pair(it.key.first, it.value) else Pair(it.key.first, 0)
+        }.filter { it.second > 0 }
 }
