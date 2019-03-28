@@ -1,6 +1,6 @@
 package Forest.Enums
 
-enum class ETreeParts {
+enum class ETreePart {
     CROWN,
     TRUNK,
     ROOTS,

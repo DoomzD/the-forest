@@ -1,6 +1,6 @@
 package Forest.Enums
 
-enum class ETrees {
+enum class ETree {
     FIR,
     PINE,
     OAK,

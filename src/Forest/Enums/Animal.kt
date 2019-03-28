@@ -1,6 +1,6 @@
 package Forest.Enums
 
-enum class EAnimals {
+enum class EAnimal {
     SQUIRELL,
     FLYING_SQUIRELL,
     WOODPECKER,
