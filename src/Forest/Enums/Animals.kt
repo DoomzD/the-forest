@@ -1,4 +1,4 @@
-package RPG.Enums
+package Forest.Enums
 
 enum class EAnimals {
     SQUIRELL,
