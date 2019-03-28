@@ -1,8 +1,8 @@
 package Forest.Enums
 
 enum class EAnimal {
-    SQUIRELL,
-    FLYING_SQUIRELL,
+    SQUIRREL,
+    FLYING_SQUIRREL,
     WOODPECKER,
     CHIPMUNK,
     BADGER,

@@ -1,5 +1,7 @@
 package Forest.Enums
 
+import kotlin.random.Random
+
 enum class ETree {
     FIR,
     PINE,
