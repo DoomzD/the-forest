@@ -12,7 +12,4 @@ interface IAnimalCharacteristics {
 
     var intellect: Int
     val additionalIntellectOnLevelUp: Int
-
-    var stamina: Int
-    var hunger: Int
 }
