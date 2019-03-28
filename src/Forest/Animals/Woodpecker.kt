@@ -1,15 +1,33 @@
 package Forest.Animals
 
 import Forest.AnimalInterfaces.IFlyingCreature
+import Forest.Enums.EAnimal
 import Forest.Enums.EFood
-import Forest.Enums.ETreePart
 
-import RPG.BaseCharacteristics.BaseWoodpecker
+import RPG.BaseSkills
 
 class Woodpecker(
     override var row: Int,
     override var col: Int,
     override var animalCount: Int
-) : BaseWoodpecker(), IFlyingCreature {
-    override val food: Set<Pair<EFood, ETreePart>> = setOf(TODO("Add food"))
+) : IFlyingCreature {
+    override val food: Set<EFood> = setOf(EFood.WORMS)
+    override val animalType = EAnimal.WOODPECKER
+
+    override var stamina = 50.0f
+    override var hungriness = 50.0f
+
+    override val skills = BaseSkills()
+
+    override var health: Int = 1
+    override val additionalHealthOnLevelUp: Int = 1
+
+    override var damage: IntRange = 1..1
+    override val additionalDamageOnLevelUp: IntRange = 1..1
+
+    override var maxWeight: Int = 1
+    override val additionalWeightOnLevelUp: Int = 1
+
+    override var intellect: Int = 1
+    override val additionalIntellectOnLevelUp: Int = 1
 }
