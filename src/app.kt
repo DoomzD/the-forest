@@ -12,7 +12,7 @@ fun main() {
     )
 
     var currentIteration = 1
-    while (game.notOver()) {
+    while (game.notOver) {
         game.makeIteration(currentIteration++)
         Thread.sleep(3000)
     }
