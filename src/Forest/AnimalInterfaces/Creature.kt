@@ -22,26 +22,38 @@ interface ICreature : IAnimalCharacteristics, ISkills {
 
     var stamina: Float
     var hungriness: Float
+    val groupHungriness get() = hungriness * animalCount
 
     val food: Set<EFood>
 
-    fun makeMove(field: List<List<FieldCell>>) {
+    fun makeMove(field: List<List<FieldCell>>,
+                 minDistance: Int = 1,
+                 minHungerGrowth: Float = 100f) {
+
         if (Random.nextInt(0, 100) >= hungriness)
             return
 
-        val possibleEndpoints: MutableList<Pair<Int, Int>> = mutableListOf()
-        val possibleEndpointsWithFood: MutableList<Pair<Int, Int>> = mutableListOf()
+        fun getPossibleEndpoints(): List<MutableList<Pair<Int, Int>>> {
+            val possibleEndpoints: MutableList<Pair<Int, Int>> = mutableListOf()
+            val possibleEndpointsWithFood: MutableList<Pair<Int, Int>> = mutableListOf()
 
-        (max(-1, -row)..min(1, field.size - row - 1)).map { dRow ->
-            (max(-1, -col)..min(1, field[0].size - col - 1)).map { dCol ->
-                if (field[row + dRow][col + dCol].hasFood()) possibleEndpointsWithFood += Pair(row + dRow, col + dCol)
-                else possibleEndpoints += Pair(row + dRow, col + dCol)
+            (max(-minDistance, -row)..min(minDistance, field.size - row - 1)).map { dRow ->
+                (max(-minDistance, -col)..min(minDistance, field[0].size - col - 1)).map { dCol ->
+                    if (field[row + dRow][col + dCol].hasFood)
+                        possibleEndpointsWithFood += Pair(row + dRow, col + dCol)
+                    else
+                        possibleEndpoints += Pair(row + dRow, col + dCol)
+                }
             }
+
+            return listOf(possibleEndpoints, possibleEndpointsWithFood)
         }
+
+        val (possibleEndpoints, possibleEndpointsWithFood) = getPossibleEndpoints()
 
         var endpoint: Pair<Int, Int> =
             if (possibleEndpoints.isEmpty() ||
-                !possibleEndpointsWithFood.isEmpty() && Random.nextInt(0, 20) < skills.pathfinding.getMultiplier()
+                !possibleEndpointsWithFood.isEmpty() && Random.nextInt(0, 20) < skills.pathfinding.multiplier
             )
                 possibleEndpointsWithFood.random()
             else possibleEndpoints.random()
@@ -49,20 +61,19 @@ interface ICreature : IAnimalCharacteristics, ISkills {
         var dist: Int = abs(endpoint.first - row) + abs(endpoint.second - col)
         if (dist > stamina)
             endpoint = Pair(row, col).also { dist = 0 }
+
         stamina -= if (dist > 0) dist else -4
-        hungriness = min(100f, hungriness + dist)
+        hungriness = min(minHungerGrowth, hungriness + dist)
 
         row = endpoint.first
         col = endpoint.second
     }
 
-    fun getGroupHungriness() = hungriness * animalCount
-
-    fun addFood(foodPoints: Int) {
+    fun feed(foodPoints: Int) {
         hungriness -= foodPoints / animalCount
     }
 
-    fun checkIfDead() {
+    fun removeAnimalIfDead() {
         if (hungriness == 100f)
             animalCount -= 1
     }
