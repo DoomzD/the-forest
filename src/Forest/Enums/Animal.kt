@@ -5,5 +5,7 @@ enum class EAnimal {
     FLYING_SQUIRREL,
     WOODPECKER,
     CHIPMUNK,
-    BADGER,
+    BADGER;
+
+    val prettyName = getPrettyName()
 }

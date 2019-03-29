@@ -8,5 +8,7 @@ enum class ETree {
     OAK,
     MAPLE,
     BIRCH,
-    WALNUT,
+    WALNUT;
+
+    val prettyName = getPrettyName()
 }
