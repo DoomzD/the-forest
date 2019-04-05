@@ -5,5 +5,7 @@ enum class EFood {
     CONES,
     WORMS,
     MAPLE_LEAVES,
-    ROOT_VEGETABLES,
+    ROOT_VEGETABLES;
+
+    val prettyName = getPrettyName()
 }

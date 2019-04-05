@@ -1,10 +1,10 @@
 package RPG
 
-class Skill(private var currentExpirience: Int = 0) {
-    fun getMultiplier(): Int = multipliersOnLevel[expToLevelUp.indexOfLast { it <= currentExpirience }]
+class Skill(private var currentExperience: Int = 0) {
+    val multiplier = multipliersOnLevel[expToLevelUp.indexOfLast { it <= currentExperience }]
 
     fun addExp(exp: Int) {
-        currentExpirience += exp
+        currentExperience += exp
     }
 
     companion object Levels {
@@ -24,18 +24,18 @@ class BaseSkills {
 interface ISkills {
     val skills: BaseSkills
 
-    fun getStrength() = skills.strength.getMultiplier()
+    val strength get() = skills.strength.multiplier
     fun addExpToStrength(exp: Int) = skills.strength.addExp(exp)
 
-    fun getAgility() = skills.agility.getMultiplier()
+    val agility get() = skills.agility.multiplier
     fun addExpToAgility(exp: Int) = skills.agility.addExp(exp)
 
-    fun getEndurance() = skills.endurance.getMultiplier()
+    val endurance get() = skills.endurance.multiplier
     fun addExpToEndurance(exp: Int) = skills.endurance.addExp(exp)
 
-    fun getDiplomacy() = skills.diplomacy.getMultiplier()
+    val diplomacy get() = skills.diplomacy.multiplier
     fun addExpToDiplomacy(exp: Int) = skills.diplomacy.addExp(exp)
 
-    fun getPathfinding() = skills.pathfinding.getMultiplier()
+    val pathfinding get() = skills.pathfinding.multiplier
     fun addExpToPathfinding(exp: Int) = skills.pathfinding.addExp(exp)
 }

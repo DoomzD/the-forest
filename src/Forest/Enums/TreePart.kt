@@ -3,5 +3,7 @@ package Forest.Enums
 enum class ETreePart {
     CROWN,
     TRUNK,
-    ROOTS,
+    ROOTS;
+
+    val prettyName = getPrettyName()
 }

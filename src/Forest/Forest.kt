@@ -4,7 +4,6 @@ import Forest.AnimalInterfaces.ICreature
 import Forest.Animals.*
 import Forest.Enums.EFood
 import Forest.Enums.ETree
-import Forest.Enums.EAnimal
 
 import kotlin.math.min
 import kotlin.random.Random
@@ -30,7 +29,7 @@ class Forest(private val conf: Config) {
         println("FOREST GENERATED\n")
 
         println("ANIMAL STATISTICS")
-        animals.forEach { animal -> println("Animal: ${getAnimalName(animal.animalType)}, ${animal.animalCount} units") }
+        animals.forEach { animal -> println("Animal: ${animal.animalType.prettyName}, ${animal.animalCount} units") }
 
         println("\nTREES STATISTICS")
         // TODO: Someone add these info x)
@@ -47,22 +46,22 @@ class Forest(private val conf: Config) {
     private fun processFood(fieldCell: FieldCell, animal: ICreature) {
         val eatable: List<Pair<EFood, Int>> = checkForFood(fieldCell, animal)
 
-        var hungriness = animal.getGroupHungriness()
-        val newFood: MutableList<Pair<EFood, Int>> = mutableListOf()
+        var hungriness = animal.groupHungriness
+        val newFood: MutableMap<EFood, Int> = mutableMapOf()
         for (foodUnit in eatable) {
             val foodValue = foodValues[foodUnit.first]
             val toEat = min((hungriness / foodValue!!).toInt(), foodUnit.second)
 
-            newFood += Pair(foodUnit.first, foodUnit.second - toEat)
-            animal.addFood(toEat * foodValue)
+            newFood.put(foodUnit.first, foodUnit.second - toEat)
+            animal.feed(toEat * foodValue)
             hungriness -= foodValue * toEat / animal.animalCount
         }
 
-        fieldCell.setFood(newFood)
+        fieldCell.food = newFood
     }
 
     private fun checkForFood(fieldCell: FieldCell, animal: ICreature): List<Pair<EFood, Int>> =
-        fieldCell.getFood().map {
+        fieldCell.food.map {
             if (it.key in animal.food) Pair(it.key, it.value) else Pair(it.key, 0)
         }.filter { it.second > 0 }
 
@@ -71,7 +70,7 @@ class Forest(private val conf: Config) {
     }
 
     private fun updateGeneration() {
-        animals.forEach { animal -> animal.checkIfDead() }
+        animals.forEach { animal -> animal.removeAnimalIfDead() }
     }
 
     private fun createReport(currentIteration: Int) {
@@ -87,47 +86,23 @@ class Forest(private val conf: Config) {
         val food: MutableMap<EFood, Int> = mutableMapOf()
         field.map { row ->
             row.map { cell ->
-                cell.getFood().forEach { foodUnit ->
+                cell.food.forEach { foodUnit ->
                     food[foodUnit.key] =
                         if (food[foodUnit.key] != null) food[foodUnit.key]!! + foodUnit.value else foodUnit.value
                 }
             }
         }
-        food.forEach { foodUnit -> println("${getFoodName(foodUnit.key)}: ${foodUnit.value}") }
+        food.forEach { foodUnit -> println("${foodUnit.key.prettyName}: ${foodUnit.value}") }
     }
 
     private fun createReportAboutAnimal(animal: ICreature) {
-        println("Animal: ${getAnimalName(animal.animalType)}, ${animal.animalCount} units")
+        println("Animal: ${animal.animalType.prettyName}, ${animal.animalCount} units")
         println("Hungriness: [${animal.hungriness}/100]")
         println("Stamina: [${animal.stamina}/100]")
     }
 
-    private fun getAnimalName(animalType: EAnimal): String = when (animalType) {
-        EAnimal.BADGER -> "Badger"
-        EAnimal.CHIPMUNK -> "Chipmunk"
-        EAnimal.SQUIRREL -> "Squirrel"
-        EAnimal.FLYING_SQUIRREL -> "Flying Squirrel"
-        EAnimal.WOODPECKER -> "Woodpecker"
-    }
 
-    private fun getFoodName(foodType: EFood): String = when (foodType) {
-        EFood.NUTS -> "Nuts"
-        EFood.MAPLE_LEAVES -> "Maple leaves"
-        EFood.CONES -> "Cones"
-        EFood.ROOT_VEGETABLES -> "Root vegetables"
-        EFood.WORMS -> "Worms"
-    }
-
-    private fun getTreeName(treeType: ETree): String = when (treeType) {
-        ETree.PINE -> "Pine"
-        ETree.MAPLE -> "Maple"
-        ETree.FIR -> "Fir"
-        ETree.BIRCH -> "Birch"
-        ETree.OAK -> "Oak"
-        ETree.WALNUT -> "Walnut"
-    }
-
-    fun notOver(): Boolean = !animals.isEmpty()
+    val notOver = !animals.isEmpty()
 
     companion object {
         private val foodValues: Map<EFood, Int> = mapOf(
